@@ -2,31 +2,31 @@ package ru.otus;
 
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class Atm {
-    private ArrayList<Money> nominal;
+    private TreeSet<Nominals> nominal;
     private AccountOfBank account;
 
-    public Atm(ArrayList<Money> nominal, AccountOfBank account) {
+    public Atm(TreeSet<Nominals> nominal, AccountOfBank account) {
         this.nominal = nominal;
         this.account = account;
     }
 
-    public void pushMoney(ArrayList<Money> inSumma) {
-        for (Money m : inSumma) {
+    public void pushMoney(ArrayList<Nominals> inSumma) {
+        for (Nominals m : inSumma) {
             account.addBalance(m.getNominal());
         }
 
     }
 
-    public ArrayList<Money> pullMoney(int outSumma) {
-        ArrayList<Money> summa = new ArrayList<Money>();
+    public ArrayList<Nominals> pullMoney(int outSumma) {
+        ArrayList<Nominals> summa = new ArrayList<Nominals>();
         int reduceSumma = 0;
-        nominal.sort((Money m1, Money m2) -> m2.getNominal() - m1.getNominal());
-        for (Money m : nominal) {
+        for (Nominals m : this.nominal) {
             while (outSumma >= m.getNominal()) {
                 summa.add(m);
-                reduceSumma+=m.getNominal();
+                reduceSumma += m.getNominal();
                 outSumma -= m.getNominal();
             }
         }
@@ -36,7 +36,8 @@ public class Atm {
         account.reduceBalance(reduceSumma);
         return summa;
     }
-    public int getBalance(){
+
+    public int getBalance() {
         return account.getBalance();
     }
 
